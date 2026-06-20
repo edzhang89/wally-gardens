@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Wally's Secret Garden Hunt 🌸</title>
+<title>Wally's PAW Patrol Garden Rescue 🐾</title>
 <style>
-  :root { --leaf:#2f8f4e; --leaf-deep:#1f6e3a; --grass:#7ec850; --pink:#ff7eb3; --sky:#7ec8e3; --gold:#f4b942; --gold-deep:#d99411; --cream:#fbfff0; }
+  :root { --leaf:#1a6dd6; --leaf-deep:#0d4ea0; --grass:#7ec850; --pink:#ff7eb3; --sky:#7ec8e3; --gold:#f4b942; --gold-deep:#d99411; --red:#e23b3b; --cream:#fbffff; }
   html, body { margin:0; padding:0; }
   * { -webkit-tap-highlight-color:transparent; }
   body {
     font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
-    background:radial-gradient(circle at 50% 0%, #8fd3f0 0%, #aee29a 45%, var(--leaf) 100%);
+    background:radial-gradient(circle at 50% 0%, #8fd3f0 0%, #4d9fe0 45%, var(--leaf) 100%);
     background-attachment:fixed; color:#fff; min-height:100vh; padding:0 14px 175px; overflow-x:hidden;
   }
   header { text-align:center; padding:20px 6px 6px; }
@@ -48,13 +48,17 @@
 
   .body { padding:4px 16px 0; }
   .stop-name { font-size:25px; font-weight:900; color:var(--leaf-deep); margin:10px 0 2px; line-height:1.1; }
-  .mission { background:#eaf7e0; border-radius:16px; padding:12px 14px; font-size:18px; line-height:1.35; color:#33502a; margin:12px 0; font-weight:bold; }
+  .mission { background:#e3f0ff; border-radius:16px; padding:12px 14px; font-size:18px; line-height:1.35; color:#0d3a66; margin:12px 0; font-weight:bold; }
+  .pup-badge { display:flex; align-items:center; gap:10px; margin:12px 0 0; background:linear-gradient(160deg,#fff,#eef6ff); border:3px solid var(--gold); border-radius:18px; padding:8px 12px; }
+  .pup-badge .pup-emoji { font-size:40px; line-height:1; }
+  .pup-badge .pup-txt { font-size:14px; font-weight:900; color:var(--leaf-deep); line-height:1.15; }
+  .pup-badge .pup-txt small { display:block; font-size:12px; font-weight:bold; color:var(--red); font-style:italic; }
   .mission .tag { display:inline-block; background:var(--leaf); color:#fff; font-size:12px; font-weight:900; padding:3px 10px; border-radius:12px; margin-right:6px; letter-spacing:.5px; vertical-align:middle; }
 
-  .found-btn { display:block; width:100%; min-height:84px; font-size:27px; font-weight:900; color:#fff;
-    background:linear-gradient(160deg,#46c66a,#2f8f4e); border:none; border-radius:22px; cursor:pointer;
-    box-shadow:0 7px 0 #1f6e3a; margin-top:4px; font-family:inherit; letter-spacing:.5px; }
-  .found-btn:active { transform:translateY(5px); box-shadow:0 2px 0 #1f6e3a; }
+  .found-btn { display:block; width:100%; min-height:84px; font-size:26px; font-weight:900; color:#fff;
+    background:linear-gradient(160deg,#2f9bf0,#1561c4); border:none; border-radius:22px; cursor:pointer;
+    box-shadow:0 7px 0 #0d4ea0; margin-top:4px; font-family:inherit; letter-spacing:.5px; }
+  .found-btn:active { transform:translateY(5px); box-shadow:0 2px 0 #0d4ea0; }
   .card.done .found-btn { background:linear-gradient(160deg,#f4d06b,#e0a82b); box-shadow:0 7px 0 var(--gold-deep); color:var(--leaf-deep); }
   .fun-btn { display:block; width:100%; min-height:60px; font-size:21px; font-weight:900; color:var(--leaf-deep);
     background:linear-gradient(160deg,#ffe6f2,#ffc0dd); border:3px dashed #ff7eb3; border-radius:20px; cursor:pointer;
@@ -96,11 +100,11 @@
 <body>
 
 <header>
-  <div class="badge-spy">🕵️🌷</div>
-  <h1>Wally's Secret Garden Hunt</h1>
-  <p class="subtitle">🌿 Spy Mission · Amsterdam Open Gardens 🌿</p>
+  <div class="badge-spy">🐾🐶</div>
+  <h1>Wally's PAW Patrol Garden Rescue</h1>
+  <p class="subtitle">🐾 No garden too big, no pup too small! · Amsterdam 🐾</p>
   <div class="progress-wrap">
-    <div class="progress-label"><span>🌻 Garden Points</span><span id="count">0 / 10</span></div>
+    <div class="progress-label"><span>🐾 Pup Points</span><span id="count">0 / 10</span></div>
     <div class="bar"><div class="bar-fill" id="barfill"></div></div>
     <div class="stars" id="stars"></div>
   </div>
@@ -109,36 +113,36 @@
 <div class="cards" id="cards"></div>
 
 <footer>
-  Walk through the secret gardens and FIND each thing! 🔎 When you spot it, SMASH the green button 🎆 Tap the picture for balloons! 🎈<br>
+  Help the PAW Patrol pups find each thing in the gardens! 🐾 When you spot it, SMASH the blue button 🎆 Tap the picture for a paw party! 🎈<br>
   <button class="reset" onclick="resetAll()">↻ Start over</button>
 </footer>
 
 <div class="hud" id="hud">
-  <div class="hud-count" id="hudCount">0 of 10 flowers grown</div>
+  <div class="hud-count" id="hudCount">0 of 10 pups rescued</div>
   <div class="hud-stars" id="hudStars"></div>
   <button class="hud-next" id="hudNext" onclick="findNext()">🔭 Find my next treasure!</button>
 </div>
 
 <div class="win" id="win">
-  <div class="big">🌳🌸🦋</div>
-  <h2>GARDEN CHAMPION!</h2>
-  <p>WOW Agent Wally — you found EVERY secret in the gardens and grew the whole magic garden! 🌻 You're the best garden spy in Amsterdam. Time for a treat!</p>
-  <button onclick="hideWin()">Yay! 🌟</button>
+  <div class="big">🐶🐾🦴</div>
+  <h2>PAWSOME, WALLY!</h2>
+  <p>WOOF WOOF! 🐾 You helped Chase, Skye, Marshall and the whole PAW Patrol finish EVERY mission in the gardens! Ryder says you're the best pup of all. Time for a treat!</p>
+  <button onclick="hideWin()">PAW-some! 🐾</button>
 </div>
 <div class="flash" id="flash"></div>
 
 <script>
 const FINDS = [
-  { emoji:"🌳", grad:"#46c66a,#9be88a", name:"A Tree",            mission:"Find a tree! Any tree with green leaves. Give the trunk a pat. 🌳" },
-  { emoji:"🌸", grad:"#ff9ec4,#ffd0e4", name:"A Flower",          mission:"Find a flower — ANY color you like! What color is it?" },
-  { emoji:"🍃", grad:"#2f8f4e,#9be88a", name:"A Green Leaf",      mission:"Find a green leaf! Can you find a BIG one and a teeny one?" },
-  { emoji:"🪴", grad:"#8a6d3b,#d6b483", name:"A Plant in a Pot",  mission:"Find a plant growing in a pot or a planter! 🪴" },
-  { emoji:"🧱", grad:"#c0866b,#f0c0a8", name:"A Wall",            mission:"Find a wall around the garden! Give it a knock — knock knock! ✊" },
-  { emoji:"🪟", grad:"#7ec8e3,#cdeefb", name:"A Window",          mission:"Find a window! Wave hello to whoever lives there. 👋" },
-  { emoji:"🚪", grad:"#b58a5a,#e0c49a", name:"A Door",            mission:"Find a door! How many doors can you count? 🚪" },
-  { emoji:"🪨", grad:"#bdb6a8,#e6e0d4", name:"A Stone",           mission:"Find a stone or a stone path to walk on! Tiptoe across it. 🦶" },
-  { emoji:"☁️", grad:"#8fd3f0,#d8f0ff", name:"The Sky Up High",   mission:"Look WAY UP! Find the sky. Is it sunny or cloudy today? ☀️" },
-  { emoji:"🌻", grad:"#ffd000,#fff0a0", name:"Your Favorite Flower", mission:"Find your VERY favorite flower in the whole garden! Point to it. That's your treasure! 🌻", hero:true },
+  { emoji:"🌳", grad:"#2f9bf0,#9bd0ff", name:"A Tree",            pup:"Chase 🚓", catch:"Chase is on the case!", mission:"Chase needs a lookout spot — find a TREE! Give the trunk a pat. 🐾" },
+  { emoji:"🌸", grad:"#ff7eb3,#ffd0e4", name:"A Flower",          pup:"Skye 🚁", catch:"This pup's gotta fly!", mission:"Skye spotted something pretty — find a FLOWER, any color! What color is it?" },
+  { emoji:"🍃", grad:"#46c66a,#9be88a", name:"A Green Leaf",      pup:"Rocky ♻️", catch:"Green means go!", mission:"Rocky loves green — find a GREEN LEAF! A big one AND a teeny one!" },
+  { emoji:"🪴", grad:"#ffd23b,#fff0a0", name:"A Plant in a Pot",  pup:"Rubble 🚜", catch:"Rubble on the double!", mission:"Rubble dug up a planter — find a PLANT IN A POT! How many pots can you count?" },
+  { emoji:"🧱", grad:"#e23b3b,#ff9a9a", name:"A Wall",            pup:"Marshall 🚒", catch:"I'm fired up!", mission:"Marshall needs a wall for his ladder — find a WALL! Knock knock! ✊" },
+  { emoji:"🪟", grad:"#2f9bf0,#cdeefb", name:"A Window",          pup:"Chase 🚓", catch:"Chase is on the case!", mission:"Spy a WINDOW for Chase! Wave hello to whoever lives there. 👋" },
+  { emoji:"🚪", grad:"#ff9f43,#ffd0a0", name:"A Door",            pup:"Zuma 🛟", catch:"Let's dive in!", mission:"Zuma found a DOOR — find it! How many doors can you count? 🚪" },
+  { emoji:"🪨", grad:"#ffd23b,#e6e0d4", name:"A Stone",           pup:"Rubble 🚜", catch:"Rubble on the double!", mission:"Rubble's diggers found a STONE — find one! Tiptoe across the path. 🦶" },
+  { emoji:"☁️", grad:"#8fd3f0,#d8f0ff", name:"The Sky Up High",   pup:"Skye 🚁", catch:"Let's take to the sky!", mission:"Skye flies up high — look WAY UP and find the SKY! Sunny or cloudy today? ☀️" },
+  { emoji:"🌻", grad:"#ffd000,#fff0a0", name:"The BIG Rescue!",   pup:"Ryder & the pups 🛹🐾", catch:"PAW Patrol, ready for action!", mission:"The whole team needs YOU! Find your VERY favorite flower in the garden — the BIGGEST rescue of all! 🌻", hero:true },
 ];
 const TOTAL = FINDS.length, KEY = "wally-gardens-v2";
 let done = JSON.parse(localStorage.getItem(KEY) || "{}");
@@ -153,14 +157,15 @@ function render() {
     card.className = "card" + (isDone ? " done" : ""); card.id = "card" + id;
     card.innerHTML = `
       <div class="art" style="background:linear-gradient(150deg,${s.grad})" onclick="balloons(event)">
-        <div class="stopnum">Find ${id} / ${TOTAL}</div>
+        <div class="stopnum">🐾 Mission ${id} / ${TOTAL}</div>
         <span class="art-emoji">${s.emoji}</span>
-        ${s.hero ? '<div class="hero-flag">⭐ BIGGEST PRIZE</div>' : '<div class="art-tap">👆 tap me!</div>'}
+        ${s.hero ? '<div class="hero-flag">⭐ BIGGEST RESCUE</div>' : '<div class="art-tap">👆 tap me!</div>'}
       </div>
       <div class="body">
         <div class="stop-name">${s.name}</div>
-        <div class="mission"><span class="tag">🔎 FIND IT</span>${s.mission}</div>
-        <button class="found-btn" onclick="toggle(${id},event)">${isDone ? '🌸 FOUND IT!' : 'I FOUND IT! 🎆'}</button>
+        <div class="pup-badge"><span class="pup-emoji">🐶</span><span class="pup-txt">${s.pup}<small>"${s.catch}"</small></span></div>
+        <div class="mission"><span class="tag">🐾 MISSION</span>${s.mission}</div>
+        <button class="found-btn" onclick="toggle(${id},event)">${isDone ? '🐾 RESCUED!' : 'I FOUND IT! 🐾'}</button>
       </div>`;
     c.appendChild(card);
   });
@@ -176,7 +181,7 @@ function toggle(id, ev) {
   card.classList.toggle("done", isDone);
   if (isDone) card.classList.add("wiggle"); else card.classList.remove("wiggle");
   const btn = card.querySelector(".found-btn");
-  btn.textContent = isDone ? '🌸 FOUND IT!' : 'I FOUND IT! 🎆';
+  btn.textContent = isDone ? '🐾 RESCUED!' : 'I FOUND IT! 🐾';
   updateProgress();
   if (Object.keys(done).length >= TOTAL) setTimeout(showWin, 900);
 }
@@ -186,14 +191,14 @@ function updateProgress() {
   const n = Object.keys(done).length;
   document.getElementById("count").textContent = n + " / " + TOTAL;
   document.getElementById("barfill").style.width = (n / TOTAL * 100) + "%";
-  let s = ""; for (let i=0;i<TOTAL;i++) s += i<n ? "🌸" : "🌱";
+  let s = ""; for (let i=0;i<TOTAL;i++) s += i<n ? "🐾" : "⚪";
   document.getElementById("stars").textContent = s;
   const hudStars = document.getElementById("hudStars");
   hudStars.textContent = s;
-  document.getElementById("hudCount").textContent = n + " of " + TOTAL + " flowers grown";
+  document.getElementById("hudCount").textContent = n + " of " + TOTAL + " pups rescued";
   const nextBtn = document.getElementById("hudNext");
-  if (n >= TOTAL) { nextBtn.textContent = "🎉 You grew the WHOLE garden!"; nextBtn.classList.add("alldone"); }
-  else { nextBtn.textContent = "🔭 Find my next treasure!"; nextBtn.classList.remove("alldone"); }
+  if (n >= TOTAL) { nextBtn.textContent = "🎉 PAWSOME! Mission complete!"; nextBtn.classList.add("alldone"); }
+  else { nextBtn.textContent = "🐾 Find my next mission!"; nextBtn.classList.remove("alldone"); }
   if (n !== lastN && lastN !== -1) {
     hudStars.classList.remove("pop"); void hudStars.offsetWidth; hudStars.classList.add("pop");
   }
@@ -221,7 +226,7 @@ function spawn(x, y, txt, anim, dur, vars) {
 }
 
 function fireworks(cx, cy) {
-  const emo = ["🌸","🌼","🌺","✨","🌟","🦋","💛","🌷"];
+  const emo = ["🐾","🦴","🌟","✨","⭐","🐶","💙","❤️"];
   for (let i = 0; i < 40; i++) {
     const ang = (Math.PI * 2 * i) / 40 + Math.random() * 0.3;
     const dist = 90 + Math.random() * 150;
@@ -234,7 +239,7 @@ function fireworks(cx, cy) {
 function balloons(ev) {
   ev && ev.stopPropagation && ev.stopPropagation();
   buzz(30);
-  const colors = ["🎈","🌸","🎈","🌼","🦋","🎈","🌷","🌺"];
+  const colors = ["🎈","🐾","🎈","🦴","🐶","🎈","⭐","🐾"];
   const w = window.innerWidth;
   for (let i = 0; i < 24; i++) {
     const x = Math.random() * w;
@@ -245,7 +250,7 @@ function balloons(ev) {
 }
 
 function confettiRain(dur) {
-  const emo = ["🌸","🌼","🌺","🌷","✨","💛","🍃","🦋"];
+  const emo = ["🐾","🦴","🌟","✨","⭐","💙","🐶","❤️"];
   const start = Date.now(), w = window.innerWidth;
   const iv = setInterval(() => {
     for (let i = 0; i < 5; i++) {
@@ -263,7 +268,7 @@ function celebrate(ev, id) {
   const n = Object.keys(done).length;
   const banner = document.createElement("div");
   banner.className = "point-banner go";
-  banner.innerHTML = "🌸 +1 🌸<br><span style='font-size:30px'>" + n + " flowers!</span>";
+  banner.innerHTML = "🐾 +1 🐾<br><span style='font-size:30px'>" + n + " pups!</span>";
   document.body.appendChild(banner);
   setTimeout(() => banner.remove(), 1700);
   let cx = window.innerWidth / 2, cy = window.innerHeight * 0.42;
