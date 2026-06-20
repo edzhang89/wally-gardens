@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Wally's Secret Garden Hunt 🌸</title>
+<style>
+  :root { --leaf:#2f8f4e; --leaf-deep:#1f6e3a; --grass:#7ec850; --pink:#ff7eb3; --sky:#7ec8e3; --gold:#f4b942; --gold-deep:#d99411; --cream:#fbfff0; }
+  html, body { margin:0; padding:0; }
+  * { -webkit-tap-highlight-color:transparent; }
+  body {
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    background:radial-gradient(circle at 50% 0%, #8fd3f0 0%, #aee29a 45%, var(--leaf) 100%);
+    background-attachment:fixed; color:#fff; min-height:100vh; padding:0 14px 175px; overflow-x:hidden;
+  }
+  header { text-align:center; padding:20px 6px 6px; }
+  .badge-spy { font-size:58px; line-height:1; filter:drop-shadow(0 4px 6px rgba(0,0,0,.35)); animation:bob 2.6s ease-in-out infinite; display:inline-block; }
+  @keyframes bob { 0%,100%{transform:translateY(0) rotate(-6deg);} 50%{transform:translateY(-10px) rotate(6deg);} }
+  h1 { font-size:30px; margin:6px 0 2px; letter-spacing:.5px; color:#fff; text-shadow:0 3px 0 var(--leaf-deep),0 6px 12px rgba(0,0,0,.4); }
+  .subtitle { font-size:14px; opacity:.95; margin:0 0 14px; font-weight:bold; text-shadow:0 1px 3px rgba(0,0,0,.3); }
+
+  .progress-wrap { background:rgba(0,0,0,.25); border-radius:22px; padding:13px 16px; max-width:560px; margin:0 auto; border:3px solid rgba(255,255,255,.5); position:sticky; top:8px; z-index:8; backdrop-filter:blur(4px); }
+  .progress-label { font-size:15px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; }
+  #count { background:var(--gold); color:var(--leaf-deep); padding:4px 14px; border-radius:14px; font-size:17px; }
+  .stars { font-size:18px; letter-spacing:1px; margin-top:8px; line-height:1.3; word-break:break-all; }
+  .bar { height:18px; background:rgba(255,255,255,.25); border-radius:10px; margin-top:8px; overflow:hidden; }
+  .bar-fill { height:100%; width:0%; background:linear-gradient(90deg,#ff7eb3,#ffd86b,#7ee8a0,#6bd0ff); background-size:300% 100%; border-radius:10px; transition:width .55s cubic-bezier(.3,1.4,.5,1); animation:shine 3s linear infinite; }
+  @keyframes shine { to { background-position:300% 0; } }
+
+  .cards { max-width:560px; margin:18px auto 0; display:flex; flex-direction:column; gap:20px; }
+  .card { background:var(--cream); color:#2a2a2a; border-radius:28px; padding:0 0 18px; overflow:hidden;
+    box-shadow:0 9px 0 rgba(0,0,0,.2),0 18px 28px rgba(0,0,0,.35); border:6px solid #fff; position:relative; }
+  .card.done { border-color:var(--gold); }
+  .card.wiggle { animation:wiggle .6s ease; }
+  @keyframes wiggle { 0%,100%{transform:rotate(0) scale(1);} 20%{transform:rotate(-3deg) scale(1.04);} 50%{transform:rotate(3deg) scale(1.06);} 80%{transform:rotate(-1.5deg) scale(1.02);} }
+  .card.done::after { content:"✓"; position:absolute; top:12px; right:12px; background:var(--leaf); color:#fff;
+    width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:30px; font-weight:bold; box-shadow:0 4px 10px rgba(0,0,0,.4); border:3px solid #fff; z-index:3; animation:pop .4s ease; }
+  @keyframes pop { 0%{transform:scale(0) rotate(-40deg);} 70%{transform:scale(1.3) rotate(10deg);} 100%{transform:scale(1) rotate(0);} }
+  .stopnum { position:absolute; top:12px; left:12px; background:rgba(0,0,0,.5); color:#fff; font-size:13px; font-weight:bold; padding:5px 12px; border-radius:20px; z-index:3; }
+
+  .art { position:relative; height:200px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; }
+  .art-emoji { font-size:110px; filter:drop-shadow(0 5px 7px rgba(0,0,0,.3)); animation:floaty 3.4s ease-in-out infinite; }
+  @keyframes floaty { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-9px) rotate(3deg);} }
+  .art:active .art-emoji { transform:scale(1.35) rotate(12deg); }
+  .art-tap { position:absolute; bottom:8px; right:10px; background:rgba(0,0,0,.5); color:#fff; font-size:12px; font-weight:bold; padding:5px 12px; border-radius:20px; z-index:2; letter-spacing:.5px; }
+  .hero-flag { position:absolute; bottom:8px; left:10px; background:var(--gold); color:var(--leaf-deep); font-size:12px; font-weight:900; padding:5px 12px; border-radius:20px; z-index:2; }
+
+  .body { padding:4px 16px 0; }
+  .stop-name { font-size:25px; font-weight:900; color:var(--leaf-deep); margin:10px 0 2px; line-height:1.1; }
+  .mission { background:#eaf7e0; border-radius:16px; padding:12px 14px; font-size:18px; line-height:1.35; color:#33502a; margin:12px 0; font-weight:bold; }
+  .mission .tag { display:inline-block; background:var(--leaf); color:#fff; font-size:12px; font-weight:900; padding:3px 10px; border-radius:12px; margin-right:6px; letter-spacing:.5px; vertical-align:middle; }
+
+  .found-btn { display:block; width:100%; min-height:84px; font-size:27px; font-weight:900; color:#fff;
+    background:linear-gradient(160deg,#46c66a,#2f8f4e); border:none; border-radius:22px; cursor:pointer;
+    box-shadow:0 7px 0 #1f6e3a; margin-top:4px; font-family:inherit; letter-spacing:.5px; }
+  .found-btn:active { transform:translateY(5px); box-shadow:0 2px 0 #1f6e3a; }
+  .card.done .found-btn { background:linear-gradient(160deg,#f4d06b,#e0a82b); box-shadow:0 7px 0 var(--gold-deep); color:var(--leaf-deep); }
+  .fun-btn { display:block; width:100%; min-height:60px; font-size:21px; font-weight:900; color:var(--leaf-deep);
+    background:linear-gradient(160deg,#ffe6f2,#ffc0dd); border:3px dashed #ff7eb3; border-radius:20px; cursor:pointer;
+    margin-top:11px; font-family:inherit; }
+  .fun-btn:active { transform:scale(.96); }
+
+  footer { text-align:center; max-width:560px; margin:22px auto 0; font-size:14px; opacity:.95; line-height:1.5; text-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .reset { margin-top:10px; background:rgba(0,0,0,.25); color:#fff; border:2px solid rgba(255,255,255,.5); border-radius:14px; padding:9px 18px; font-size:14px; font-weight:bold; cursor:pointer; font-family:inherit; }
+
+  /* bottom HUD */
+  .hud { position:fixed; left:0; right:0; bottom:0; z-index:30; background:linear-gradient(0deg,rgba(31,110,58,.99),rgba(31,110,58,.93)); border-top:4px solid var(--gold); padding:8px 10px calc(9px + env(safe-area-inset-bottom)); box-shadow:0 -6px 22px rgba(0,0,0,.45); }
+  .hud-count { text-align:center; font-size:14px; font-weight:bold; color:#ffe9b0; margin-bottom:3px; }
+  .hud-stars { font-size:22px; letter-spacing:1px; text-align:center; line-height:1.3; word-break:break-all; margin:0 auto 8px; max-width:560px; }
+  .hud-stars.pop { animation: hudpop .5s ease-out; }
+  @keyframes hudpop { 0%{transform:scale(1);} 40%{transform:scale(1.12);} 100%{transform:scale(1);} }
+  .hud-next { display:block; width:100%; max-width:560px; margin:0 auto; background:linear-gradient(160deg,#ffd86b,#f0a92b); color:#3a2a05; border:3px solid #fff; border-radius:18px; font-size:19px; font-weight:900; padding:13px; cursor:pointer; box-shadow:0 4px 0 #c8861a; font-family:inherit; }
+  .hud-next:active { transform:translateY(3px); box-shadow:0 1px 0 #c8861a; }
+  .hud-next.alldone { background:linear-gradient(160deg,#7ee8a0,#46b06a); color:#0a3a1c; box-shadow:0 4px 0 #2e7d49; }
+  .card.hl { animation: cardhl 1.1s ease; }
+  @keyframes cardhl { 0%,100%{box-shadow:0 9px 0 rgba(0,0,0,.2),0 18px 28px rgba(0,0,0,.35);} 30%,60%{box-shadow:0 0 0 5px var(--gold),0 0 26px 8px rgba(244,185,66,.85);} }
+
+  /* effects */
+  .fx { position:fixed; z-index:60; pointer-events:none; will-change:transform,opacity; }
+  .flash { position:fixed; inset:0; background:#fff; opacity:0; pointer-events:none; z-index:55; }
+  .flash.go { animation:flash .45s ease-out; }
+  @keyframes flash { 0%{opacity:.85;} 100%{opacity:0;} }
+  .point-banner { position:fixed; top:38%; left:50%; transform:translate(-50%,-50%) scale(0); z-index:65; font-size:64px; font-weight:900; color:#fff; text-shadow:0 4px 0 var(--leaf-deep),0 0 24px var(--gold); pointer-events:none; text-align:center; }
+  .point-banner.go { animation:banner 1.6s ease-out forwards; }
+  @keyframes banner { 0%{transform:translate(-50%,-50%) scale(0) rotate(-20deg);} 25%{transform:translate(-50%,-50%) scale(1.25) rotate(8deg);} 45%{transform:translate(-50%,-50%) scale(1) rotate(0);} 80%{opacity:1;} 100%{transform:translate(-50%,-90%) scale(1); opacity:0;} }
+
+  .win { position:fixed; inset:0; background:radial-gradient(circle at 50% 40%, rgba(47,143,78,.97), rgba(20,60,30,.99)); z-index:80; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; }
+  .win.show { display:flex; animation:flash .5s ease-out; }
+  .win .big { font-size:96px; animation:bob 2s ease-in-out infinite; }
+  .win h2 { font-size:38px; margin:10px 0; color:var(--gold); text-shadow:0 3px 0 var(--gold-deep); }
+  .win p { font-size:19px; max-width:340px; line-height:1.4; }
+  .win button { margin-top:18px; font-size:22px; font-weight:900; color:var(--leaf-deep); background:var(--gold); border:none; border-radius:18px; padding:15px 30px; cursor:pointer; box-shadow:0 5px 0 var(--gold-deep); font-family:inherit; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge-spy">🕵️🌷</div>
+  <h1>Wally's Secret Garden Hunt</h1>
+  <p class="subtitle">🌿 Spy Mission · Amsterdam Open Gardens 🌿</p>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>🌻 Garden Points</span><span id="count">0 / 18</span></div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+    <div class="stars" id="stars"></div>
+  </div>
+</header>
+
+<div class="cards" id="cards"></div>
+
+<footer>
+  Walk through the secret gardens and FIND each thing! 🔎 When you spot it, SMASH the green button 🎆 Tap the picture for balloons! 🎈<br>
+  <button class="reset" onclick="resetAll()">↻ Start over</button>
+</footer>
+
+<div class="hud" id="hud">
+  <div class="hud-count" id="hudCount">0 of 18 flowers grown</div>
+  <div class="hud-stars" id="hudStars"></div>
+  <button class="hud-next" id="hudNext" onclick="findNext()">🔭 Find my next treasure!</button>
+</div>
+
+<div class="win" id="win">
+  <div class="big">🌳🌸🦋</div>
+  <h2>GARDEN CHAMPION!</h2>
+  <p>WOW Agent Wally — you found EVERY secret in the gardens and grew the whole magic garden! 🌻 You're the best garden spy in Amsterdam. Time for a treat!</p>
+  <button onclick="hideWin()">Yay! 🌟</button>
+</div>
+<div class="flash" id="flash"></div>
+
+<script>
+const FINDS = [
+  { emoji:"🌷", grad:"#ff9ec4,#ffd0e4", name:"A Pink Flower",     mission:"Find a PINK or RED flower! Point at it. What does it smell like? Sniff sniff! 👃" },
+  { emoji:"⛲", grad:"#6bd0ff,#bdeeff", name:"A Splashy Fountain", mission:"Find water spraying up — a fountain! Listen to it go SPLISH SPLASH. 💦" },
+  { emoji:"🐝", grad:"#ffd86b,#fff0b0", name:"A Buzzy Bee",        mission:"Find a little bee buzzing on a flower! Make the buzz — Bzzzzz! 🐝" },
+  { emoji:"🗿", grad:"#bdb6a8,#e6e0d4", name:"A Stone Statue",     mission:"Find a stone statue standing very still. Can YOU stand still like a statue? Freeze!" },
+  { emoji:"🌳", grad:"#46c66a,#9be88a", name:"A Giant Old Tree",   mission:"Find the BIGGEST, tallest tree! Look way up. Give the trunk a pat. 🌳" },
+  { emoji:"🦋", grad:"#b58aff,#e0c0ff", name:"A Butterfly",        mission:"Find a butterfly with pretty wings! Flap your arms like a butterfly too. 🦋" },
+  { emoji:"🌹", grad:"#e0394b,#ff9aa6", name:"A Red Rose",         mission:"Find a rose! Careful — roses have little thorns. Count the petals!" },
+  { emoji:"🐦", grad:"#7ec8e3,#cdeefb", name:"A Little Bird",      mission:"Find a bird hopping or flying! Can you hear it sing? Tweet tweet! 🐦" },
+  { emoji:"🪴", grad:"#8a6d3b,#d6b483", name:"A Big Flower Pot",   mission:"Find a pot STUFFED full of plants! How many pots can you count?" },
+  { emoji:"🐌", grad:"#a6c44b,#e0e89a", name:"A Slow Snail",       mission:"Find a snail or a creepy-crawly bug! Move suuuper slow like a snail. 🐌" },
+  { emoji:"✂️", grad:"#2f8f4e,#7ee89a", name:"A Funny-Shaped Bush",mission:"Find a bush cut into a SHAPE — a ball or an animal! What shape is it?" },
+  { emoji:"🏡", grad:"#c0866b,#f0c0a8", name:"A Tiny Garden House", mission:"Find a little garden house or shed hiding in the green. Who lives there? 🏡" },
+  { emoji:"🪑", grad:"#8a6d3b,#d6b483", name:"A Garden Bench",     mission:"Find a bench to sit on! Take a tiny rest. Wiggle your feet! 🪑" },
+  { emoji:"🌿", grad:"#2f8f4e,#9be88a", name:"Climbing Green Ivy",  mission:"Find green leaves climbing UP a wall! Reach up high like the ivy. 🌿" },
+  { emoji:"🦆", grad:"#46b06a,#bff0c0", name:"A Duck or a Pond",   mission:"Find a pond, or a duck in the canal! Say QUACK QUACK! 🦆" },
+  { emoji:"🕰️", grad:"#b8860b,#ffd86b", name:"A Sun Clock",        mission:"Find a sundial — a clock made of SHADOWS! Find your own shadow too. ☀️" },
+  { emoji:"🐈", grad:"#f0932b,#ffd0a0", name:"A Garden Cat",       mission:"Find a sneaky cat (or a doggy)! Give a quiet little MEOW. 🐈" },
+  { emoji:"🌻", grad:"#ffd000,#fff0a0", name:"The Tallest Flower", mission:"Find the BIGGEST, sunniest yellow flower! Stretch up TALL like a sunflower! 🌻", hero:true },
+];
+const TOTAL = FINDS.length, KEY = "wally-gardens-v1";
+let done = JSON.parse(localStorage.getItem(KEY) || "{}");
+
+function buzz(p){ try{ navigator.vibrate && navigator.vibrate(p); }catch(e){} }
+
+function render() {
+  const c = document.getElementById("cards"); c.innerHTML = "";
+  FINDS.forEach((s, i) => {
+    const id = i + 1, isDone = !!done[id];
+    const card = document.createElement("div");
+    card.className = "card" + (isDone ? " done" : ""); card.id = "card" + id;
+    card.innerHTML = `
+      <div class="art" style="background:linear-gradient(150deg,${s.grad})" onclick="balloons(event)">
+        <div class="stopnum">Find ${id} / ${TOTAL}</div>
+        <span class="art-emoji">${s.emoji}</span>
+        ${s.hero ? '<div class="hero-flag">⭐ BIGGEST PRIZE</div>' : '<div class="art-tap">👆 tap me!</div>'}
+      </div>
+      <div class="body">
+        <div class="stop-name">${s.name}</div>
+        <div class="mission"><span class="tag">🔎 FIND IT</span>${s.mission}</div>
+        <button class="found-btn" onclick="toggle(${id},event)">${isDone ? '🌸 FOUND IT!' : 'I FOUND IT! 🎆'}</button>
+        <button class="fun-btn" onclick="balloons(event)">🎈 BALLOONS! 🎈</button>
+      </div>`;
+    c.appendChild(card);
+  });
+  updateProgress();
+}
+
+function toggle(id, ev) {
+  if (done[id]) { delete done[id]; buzz(20); }
+  else { done[id] = 1; buzz([0,40,30,60]); celebrate(ev, id); }
+  localStorage.setItem(KEY, JSON.stringify(done));
+  const card = document.getElementById("card" + id);
+  const isDone = !!done[id];
+  card.classList.toggle("done", isDone);
+  if (isDone) card.classList.add("wiggle"); else card.classList.remove("wiggle");
+  const btn = card.querySelector(".found-btn");
+  btn.textContent = isDone ? '🌸 FOUND IT!' : 'I FOUND IT! 🎆';
+  updateProgress();
+  if (Object.keys(done).length >= TOTAL) setTimeout(showWin, 900);
+}
+
+let lastN = -1;
+function updateProgress() {
+  const n = Object.keys(done).length;
+  document.getElementById("count").textContent = n + " / " + TOTAL;
+  document.getElementById("barfill").style.width = (n / TOTAL * 100) + "%";
+  let s = ""; for (let i=0;i<TOTAL;i++) s += i<n ? "🌸" : "🌱";
+  document.getElementById("stars").textContent = s;
+  const hudStars = document.getElementById("hudStars");
+  hudStars.textContent = s;
+  document.getElementById("hudCount").textContent = n + " of " + TOTAL + " flowers grown";
+  const nextBtn = document.getElementById("hudNext");
+  if (n >= TOTAL) { nextBtn.textContent = "🎉 You grew the WHOLE garden!"; nextBtn.classList.add("alldone"); }
+  else { nextBtn.textContent = "🔭 Find my next treasure!"; nextBtn.classList.remove("alldone"); }
+  if (n !== lastN && lastN !== -1) {
+    hudStars.classList.remove("pop"); void hudStars.offsetWidth; hudStars.classList.add("pop");
+  }
+  lastN = n;
+}
+
+function findNext() {
+  const idx = FINDS.findIndex((s, i) => !done[i + 1]);
+  buzz(15);
+  if (idx === -1) { showWin(); return; }
+  const el = document.getElementById("card" + (idx + 1));
+  el.scrollIntoView({ behavior:"smooth", block:"center" });
+  el.classList.remove("hl"); void el.offsetWidth; el.classList.add("hl");
+}
+
+function spawn(x, y, txt, anim, dur, vars) {
+  const e = document.createElement("div");
+  e.className = "fx"; e.textContent = txt;
+  e.style.left = x + "px"; e.style.top = y + "px";
+  e.style.fontSize = (vars && vars["--fs"]) || "26px";
+  for (const k in vars) if (k !== "--fs") e.style.setProperty(k, vars[k]);
+  e.style.animation = anim + " " + dur + "s ease-out forwards";
+  document.body.appendChild(e);
+  setTimeout(() => e.remove(), dur * 1000 + 150);
+}
+
+function fireworks(cx, cy) {
+  const emo = ["🌸","🌼","🌺","✨","🌟","🦋","💛","🌷"];
+  for (let i = 0; i < 40; i++) {
+    const ang = (Math.PI * 2 * i) / 40 + Math.random() * 0.3;
+    const dist = 90 + Math.random() * 150;
+    const dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist;
+    spawn(cx, cy, emo[i % emo.length], "spark", 1 + Math.random() * 0.8,
+      { "--dx": dx + "px", "--dy": dy + "px", "--fs": (18 + Math.random() * 22) + "px" });
+  }
+}
+
+function balloons(ev) {
+  ev && ev.stopPropagation && ev.stopPropagation();
+  buzz(30);
+  const colors = ["🎈","🌸","🎈","🌼","🦋","🎈","🌷","🌺"];
+  const w = window.innerWidth;
+  for (let i = 0; i < 24; i++) {
+    const x = Math.random() * w;
+    const drift = (Math.random() - 0.5) * 160;
+    spawn(x, window.innerHeight + 40, colors[i % colors.length], "floatup", 3.6 + Math.random() * 2.2,
+      { "--drift": drift + "px", "--fs": (30 + Math.random() * 30) + "px" });
+  }
+}
+
+function confettiRain(dur) {
+  const emo = ["🌸","🌼","🌺","🌷","✨","💛","🍃","🦋"];
+  const start = Date.now(), w = window.innerWidth;
+  const iv = setInterval(() => {
+    for (let i = 0; i < 5; i++) {
+      const x = Math.random() * w;
+      spawn(x, -30, emo[Math.floor(Math.random() * emo.length)], "conffall", 2.4 + Math.random() * 1.6,
+        { "--rot": (Math.random() * 720 - 360) + "deg", "--drift": ((Math.random() - 0.5) * 120) + "px", "--fs": (16 + Math.random() * 18) + "px" });
+    }
+    if (Date.now() - start > dur) clearInterval(iv);
+  }, 180);
+}
+
+function celebrate(ev, id) {
+  const flash = document.getElementById("flash");
+  flash.classList.remove("go"); void flash.offsetWidth; flash.classList.add("go");
+  const n = Object.keys(done).length;
+  const banner = document.createElement("div");
+  banner.className = "point-banner go";
+  banner.innerHTML = "🌸 +1 🌸<br><span style='font-size:30px'>" + n + " flowers!</span>";
+  document.body.appendChild(banner);
+  setTimeout(() => banner.remove(), 1700);
+  let cx = window.innerWidth / 2, cy = window.innerHeight * 0.42;
+  if (ev && ev.clientX) { cx = ev.clientX; cy = ev.clientY; }
+  fireworks(cx, cy);
+  setTimeout(() => fireworks(window.innerWidth * 0.25, window.innerHeight * 0.35), 220);
+  setTimeout(() => fireworks(window.innerWidth * 0.75, window.innerHeight * 0.4), 420);
+  setTimeout(() => fireworks(window.innerWidth * 0.5, window.innerHeight * 0.55), 640);
+  balloons({ stopPropagation(){} });
+  confettiRain(3400);
+}
+
+function showWin(){ document.getElementById("win").classList.add("show"); buzz([0,70,50,70,50,90]); let k=0; const iv=setInterval(()=>{ fireworks(Math.random()*innerWidth, Math.random()*innerHeight*0.6); if(++k>7) clearInterval(iv); }, 360); confettiRain(4500); }
+function hideWin(){ document.getElementById("win").classList.remove("show"); }
+function resetAll(){ if(confirm("Start the whole garden hunt over?")){ done={}; localStorage.removeItem(KEY); lastN=-1; render(); window.scrollTo({top:0,behavior:"smooth"}); } }
+
+/* keyframes injected for fx transforms */
+const sheet = document.createElement("style");
+sheet.textContent = `
+  @keyframes spark { 0%{transform:translate(0,0) scale(1); opacity:1;} 100%{transform:translate(var(--dx),var(--dy)) scale(.3); opacity:0;} }
+  @keyframes floatup { 0%{transform:translate(0,0) rotate(0); opacity:1;} 100%{transform:translate(var(--drift),-115vh) rotate(40deg); opacity:0;} }
+  @keyframes conffall { 0%{transform:translate(0,0) rotate(0); opacity:1;} 100%{transform:translate(var(--drift),112vh) rotate(var(--rot)); opacity:0;} }
+`;
+document.head.appendChild(sheet);
+
+render();
+</script>
+</body>
+</html>
