@@ -100,7 +100,7 @@
   <h1>Wally's Secret Garden Hunt</h1>
   <p class="subtitle">🌿 Spy Mission · Amsterdam Open Gardens 🌿</p>
   <div class="progress-wrap">
-    <div class="progress-label"><span>🌻 Garden Points</span><span id="count">0 / 18</span></div>
+    <div class="progress-label"><span>🌻 Garden Points</span><span id="count">0 / 10</span></div>
     <div class="bar"><div class="bar-fill" id="barfill"></div></div>
     <div class="stars" id="stars"></div>
   </div>
@@ -114,7 +114,7 @@
 </footer>
 
 <div class="hud" id="hud">
-  <div class="hud-count" id="hudCount">0 of 18 flowers grown</div>
+  <div class="hud-count" id="hudCount">0 of 10 flowers grown</div>
   <div class="hud-stars" id="hudStars"></div>
   <button class="hud-next" id="hudNext" onclick="findNext()">🔭 Find my next treasure!</button>
 </div>
@@ -129,26 +129,18 @@
 
 <script>
 const FINDS = [
-  { emoji:"🌷", grad:"#ff9ec4,#ffd0e4", name:"A Pink Flower",     mission:"Find a PINK or RED flower! Point at it. What does it smell like? Sniff sniff! 👃" },
-  { emoji:"⛲", grad:"#6bd0ff,#bdeeff", name:"A Splashy Fountain", mission:"Find water spraying up — a fountain! Listen to it go SPLISH SPLASH. 💦" },
-  { emoji:"🐝", grad:"#ffd86b,#fff0b0", name:"A Buzzy Bee",        mission:"Find a little bee buzzing on a flower! Make the buzz — Bzzzzz! 🐝" },
-  { emoji:"🗿", grad:"#bdb6a8,#e6e0d4", name:"A Stone Statue",     mission:"Find a stone statue standing very still. Can YOU stand still like a statue? Freeze!" },
-  { emoji:"🌳", grad:"#46c66a,#9be88a", name:"A Giant Old Tree",   mission:"Find the BIGGEST, tallest tree! Look way up. Give the trunk a pat. 🌳" },
-  { emoji:"🦋", grad:"#b58aff,#e0c0ff", name:"A Butterfly",        mission:"Find a butterfly with pretty wings! Flap your arms like a butterfly too. 🦋" },
-  { emoji:"🌹", grad:"#e0394b,#ff9aa6", name:"A Red Rose",         mission:"Find a rose! Careful — roses have little thorns. Count the petals!" },
-  { emoji:"🐦", grad:"#7ec8e3,#cdeefb", name:"A Little Bird",      mission:"Find a bird hopping or flying! Can you hear it sing? Tweet tweet! 🐦" },
-  { emoji:"🪴", grad:"#8a6d3b,#d6b483", name:"A Big Flower Pot",   mission:"Find a pot STUFFED full of plants! How many pots can you count?" },
-  { emoji:"🐌", grad:"#a6c44b,#e0e89a", name:"A Slow Snail",       mission:"Find a snail or a creepy-crawly bug! Move suuuper slow like a snail. 🐌" },
-  { emoji:"✂️", grad:"#2f8f4e,#7ee89a", name:"A Funny-Shaped Bush",mission:"Find a bush cut into a SHAPE — a ball or an animal! What shape is it?" },
-  { emoji:"🏡", grad:"#c0866b,#f0c0a8", name:"A Tiny Garden House", mission:"Find a little garden house or shed hiding in the green. Who lives there? 🏡" },
-  { emoji:"🪑", grad:"#8a6d3b,#d6b483", name:"A Garden Bench",     mission:"Find a bench to sit on! Take a tiny rest. Wiggle your feet! 🪑" },
-  { emoji:"🌿", grad:"#2f8f4e,#9be88a", name:"Climbing Green Ivy",  mission:"Find green leaves climbing UP a wall! Reach up high like the ivy. 🌿" },
-  { emoji:"🦆", grad:"#46b06a,#bff0c0", name:"A Duck or a Pond",   mission:"Find a pond, or a duck in the canal! Say QUACK QUACK! 🦆" },
-  { emoji:"🕰️", grad:"#b8860b,#ffd86b", name:"A Sun Clock",        mission:"Find a sundial — a clock made of SHADOWS! Find your own shadow too. ☀️" },
-  { emoji:"🐈", grad:"#f0932b,#ffd0a0", name:"A Garden Cat",       mission:"Find a sneaky cat (or a doggy)! Give a quiet little MEOW. 🐈" },
-  { emoji:"🌻", grad:"#ffd000,#fff0a0", name:"The Tallest Flower", mission:"Find the BIGGEST, sunniest yellow flower! Stretch up TALL like a sunflower! 🌻", hero:true },
+  { emoji:"🌳", grad:"#46c66a,#9be88a", name:"A Tree",            mission:"Find a tree! Any tree with green leaves. Give the trunk a pat. 🌳" },
+  { emoji:"🌸", grad:"#ff9ec4,#ffd0e4", name:"A Flower",          mission:"Find a flower — ANY color you like! What color is it?" },
+  { emoji:"🍃", grad:"#2f8f4e,#9be88a", name:"A Green Leaf",      mission:"Find a green leaf! Can you find a BIG one and a teeny one?" },
+  { emoji:"🪴", grad:"#8a6d3b,#d6b483", name:"A Plant in a Pot",  mission:"Find a plant growing in a pot or a planter! 🪴" },
+  { emoji:"🧱", grad:"#c0866b,#f0c0a8", name:"A Wall",            mission:"Find a wall around the garden! Give it a knock — knock knock! ✊" },
+  { emoji:"🪟", grad:"#7ec8e3,#cdeefb", name:"A Window",          mission:"Find a window! Wave hello to whoever lives there. 👋" },
+  { emoji:"🚪", grad:"#b58a5a,#e0c49a", name:"A Door",            mission:"Find a door! How many doors can you count? 🚪" },
+  { emoji:"🪨", grad:"#bdb6a8,#e6e0d4", name:"A Stone",           mission:"Find a stone or a stone path to walk on! Tiptoe across it. 🦶" },
+  { emoji:"☁️", grad:"#8fd3f0,#d8f0ff", name:"The Sky Up High",   mission:"Look WAY UP! Find the sky. Is it sunny or cloudy today? ☀️" },
+  { emoji:"🌻", grad:"#ffd000,#fff0a0", name:"Your Favorite Flower", mission:"Find your VERY favorite flower in the whole garden! Point to it. That's your treasure! 🌻", hero:true },
 ];
-const TOTAL = FINDS.length, KEY = "wally-gardens-v1";
+const TOTAL = FINDS.length, KEY = "wally-gardens-v2";
 let done = JSON.parse(localStorage.getItem(KEY) || "{}");
 
 function buzz(p){ try{ navigator.vibrate && navigator.vibrate(p); }catch(e){} }
@@ -169,7 +161,6 @@ function render() {
         <div class="stop-name">${s.name}</div>
         <div class="mission"><span class="tag">🔎 FIND IT</span>${s.mission}</div>
         <button class="found-btn" onclick="toggle(${id},event)">${isDone ? '🌸 FOUND IT!' : 'I FOUND IT! 🎆'}</button>
-        <button class="fun-btn" onclick="balloons(event)">🎈 BALLOONS! 🎈</button>
       </div>`;
     c.appendChild(card);
   });
